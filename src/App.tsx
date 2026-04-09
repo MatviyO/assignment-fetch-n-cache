@@ -1,120 +1,134 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import type { ReactElement } from 'react'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+const foundationItems = [
+  {
+    title: 'Starter cleanup',
+    description:
+      'The stock Vite hero, demo counter, and social blocks are gone, leaving a neutral shell for the real product.',
+  },
+  {
+    title: 'Quality gates',
+    description:
+      'Type-aware ESLint, stricter TypeScript defaults, and a single `npm run check` command now guard the repo baseline.',
+  },
+  {
+    title: 'Implementation target',
+    description:
+      'The next layer can focus on the assignment itself: character search, cache interactions, persistence, and tests.',
+  },
+] as const
+
+const deliveryTracks = [
+  'React Hook Form for the search flow',
+  'TanStack Query for request orchestration',
+  'Zustand as the cache source of truth',
+  'Jest + Playwright coverage for critical paths',
+] as const
+
+const projectSlices = [
+  'app/providers and global styles',
+  'pages/home composition',
+  'widgets/character-browser screen shell',
+  'entities/character model and reusable UI',
+  'features for search, select, remove, and clear cache',
+] as const
+
+function App(): ReactElement {
+  const currentYear = new Date().getFullYear()
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
+    <div className="app-shell">
+      <header className="hero">
+        <div className="hero-copy">
+          <p className="eyebrow">Production starter baseline</p>
+          <h1>Fetch 'n' Cache</h1>
+          <p className="hero-summary">
+            A clean foundation for the Rick and Morty character cache app:
+            template noise removed, repo quality gates tightened, and the entry
+            screen aligned with the real assignment.
           </p>
+          <div className="tag-row" aria-label="Project stack">
+            <span className="tag">React 19</span>
+            <span className="tag">Vite 8</span>
+            <span className="tag">Strict TypeScript</span>
+            <span className="tag">Type-aware ESLint</span>
+          </div>
         </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
+        <aside className="hero-panel" aria-labelledby="hero-panel-title">
+          <p id="hero-panel-title" className="panel-kicker">
+            Ready for the next pass
+          </p>
+          <ul className="compact-list">
+            {deliveryTracks.map((track) => (
+              <li key={track}>{track}</li>
+            ))}
           </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        </aside>
+      </header>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      <main className="content-grid">
+        <section className="panel panel-wide" aria-labelledby="foundation-title">
+          <div className="section-heading">
+            <p className="section-kicker">What changed</p>
+            <h2 id="foundation-title">Template clutter is no longer driving the repo</h2>
+          </div>
+
+          <div className="card-grid">
+            {foundationItems.map((item) => (
+              <article key={item.title} className="info-card">
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="panel" aria-labelledby="structure-title">
+          <div className="section-heading">
+            <p className="section-kicker">Suggested structure</p>
+            <h2 id="structure-title">Slices already mapped for implementation</h2>
+          </div>
+
+          <ul className="stack-list">
+            {projectSlices.map((slice) => (
+              <li key={slice}>{slice}</li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="panel" aria-labelledby="quality-title">
+          <div className="section-heading">
+            <p className="section-kicker">Build discipline</p>
+            <h2 id="quality-title">Quality checks are now explicit</h2>
+          </div>
+
+          <dl className="metrics">
+            <div>
+              <dt>Lint</dt>
+              <dd>Type-aware rules with zero warnings tolerated.</dd>
+            </div>
+            <div>
+              <dt>Typecheck</dt>
+              <dd>Dedicated script for project references before bundling.</dd>
+            </div>
+            <div>
+              <dt>Build</dt>
+              <dd>Production output now depends on a clean TypeScript pass.</dd>
+            </div>
+          </dl>
+        </section>
+      </main>
+
+      <footer className="footer">
+        <p>
+          Next up: implement the real fetch, cache, persistence, and test flows
+          from the assignment docs.
+        </p>
+        <span>Baseline refreshed {currentYear}</span>
+      </footer>
+    </div>
   )
 }
 

@@ -1,73 +1,42 @@
-# React + TypeScript + Vite
+# Fetch 'n' Cache
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Production-oriented starter baseline for the Rick and Morty assignment app.
 
-Currently, two official plugins are available:
+The Vite demo content has been removed so the repository can move straight into
+the actual product work: character fetching, cache interactions, persistence,
+and automated tests.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Current baseline
 
-## React Compiler
+- Project-specific entry screen instead of the default Vite template
+- Type-aware ESLint with zero-warning enforcement
+- Stricter TypeScript defaults for app and tooling configs
+- Unified quality gate via `npm run check`
+- Vite alias support through `@/*`
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Scripts
 
-## Expanding the ESLint configuration
+- `npm run dev` starts the local Vite dev server
+- `npm run lint` runs ESLint with `--max-warnings=0`
+- `npm run typecheck` validates the TypeScript project references
+- `npm run build` typechecks first, then creates a production bundle
+- `npm run check` runs the main non-test quality gates in sequence
+- `npm run preview` serves the built bundle locally
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Environment
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Node.js `>=20.19.0`
+- npm for dependency installation and script execution
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Next implementation targets
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- `react-hook-form` for the search form
+- TanStack Query for the network layer
+- Zustand for cache state and persistence
+- Jest + Playwright coverage for unit, integration, and e2e flows
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Repo notes
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Architecture groundwork lives in [docs/architecture/2026-04-09-fetch-n-cache-technical-foundation.md](docs/architecture/2026-04-09-fetch-n-cache-technical-foundation.md)
+- Delivery scope and requirements live in [docs/tasks/2026-04-09-matic-fetch-n-cache-assignment.md](docs/tasks/2026-04-09-matic-fetch-n-cache-assignment.md)
+- Initial implementation plan lives in [docs/plans/2026-04-09-fetch-n-cache-implementation.md](docs/plans/2026-04-09-fetch-n-cache-implementation.md)
