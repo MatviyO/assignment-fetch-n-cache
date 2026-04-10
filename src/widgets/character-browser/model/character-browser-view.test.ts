@@ -1,3 +1,4 @@
+import { strings } from '@/shared/i18n/strings'
 import {
   getCharacterBrowserScreenState,
   selectCacheRailCharacterIds,
@@ -43,7 +44,7 @@ describe('character-browser-view', () => {
   test('getCharacterBrowserScreenState returns loading before other states', () => {
     const screenState = getCharacterBrowserScreenState({
       isLoading: true,
-      errorMessage: 'Character not found',
+      errorMessage: strings.characterNotFound,
       visibleCharacter: createCharacter(1, 'Rick Sanchez'),
     })
 
@@ -53,7 +54,7 @@ describe('character-browser-view', () => {
   test('getCharacterBrowserScreenState returns error when loading is idle and an error exists', () => {
     const screenState = getCharacterBrowserScreenState({
       isLoading: false,
-      errorMessage: 'Character not found',
+      errorMessage: strings.characterNotFound,
       visibleCharacter: null,
     })
 

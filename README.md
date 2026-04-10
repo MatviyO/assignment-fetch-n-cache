@@ -92,9 +92,3 @@ The project uses lightweight Feature-Sliced Design, with each layer keeping one 
 - Biome for linting, formatting, and import organization
 - Jest + Testing Library for unit and UI tests
 - Playwright for end-to-end coverage
-
-## Repo Notes
-
-- Architecture groundwork lives in [docs/architecture/2026-04-09-fetch-n-cache-technical-foundation.md](docs/architecture/2026-04-09-fetch-n-cache-technical-foundation.md)
-- Delivery scope and requirements live in [docs/tasks/2026-04-09-matic-fetch-n-cache-assignment.md](docs/tasks/2026-04-09-matic-fetch-n-cache-assignment.md)
-- Initial implementation plan lives in [docs/plans/2026-04-09-fetch-n-cache-implementation.md](docs/plans/2026-04-09-fetch-n-cache-implementation.md)

@@ -1,10 +1,12 @@
-import type { FormEventHandler, JSX } from 'react'
+import type { ComponentProps, JSX } from 'react'
 import type { UseFormRegisterReturn } from 'react-hook-form'
+
+import { strings } from '@/shared/i18n/strings'
 
 interface SearchCharacterFormProps {
   characterIdField: UseFormRegisterReturn<'characterId'>
   isLoading: boolean
-  onSubmit: FormEventHandler<HTMLFormElement>
+  onSubmit: ComponentProps<'form'>['onSubmit']
 }
 
 function SearchCharacterForm({
@@ -16,7 +18,7 @@ function SearchCharacterForm({
 
   return (
     <form
-      className={`flex w-full max-w-[392px] items-end gap-4 border-b pb-1 ${formBorderClassName}`}
+      className={`flex w-full max-w-[224px] items-baseline gap-4 border-b pb-1 ${formBorderClassName}`}
       aria-label="Character search form"
       onSubmit={onSubmit}
     >
@@ -37,7 +39,7 @@ function SearchCharacterForm({
         disabled={isLoading}
         className="shrink-0 border-0 bg-transparent p-0 text-[18px] leading-none italic text-blue-700 transition hover:text-blue-900 focus:outline-none focus-visible:text-blue-900 disabled:cursor-not-allowed disabled:text-slate-300"
       >
-        Search
+        {strings.search}
       </button>
     </form>
   )

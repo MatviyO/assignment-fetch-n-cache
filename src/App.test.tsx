@@ -137,11 +137,20 @@ describe('App', () => {
 
     const cacheRail = screen.getByLabelText(/cached characters/i)
     const cacheRailContainer = cacheRail.parentElement
+    const searchForm = screen.getByLabelText(/character search form/i)
+    const clearAllButton = screen.getByRole('button', { name: /clear all/i })
+    const headerRow = searchForm.parentElement
+    const contentGrid = headerRow?.nextElementSibling
 
     expect(screen.getAllByRole('button', { name: /show /i })).toHaveLength(3)
     expect(screen.queryByRole('button', { name: /show rick sanchez/i })).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: /show beth smith/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /show beth smith/i })).toHaveClass('size-[60px]')
+    expect(headerRow).toContainElement(clearAllButton)
+    expect(headerRow).toHaveClass('lg:items-end')
+    expect(headerRow).toHaveClass('lg:justify-between')
+    expect(headerRow).toHaveClass('mb-[30px]')
+    expect(contentGrid).toHaveClass('lg:items-start')
     expect(cacheRailContainer).toHaveClass('sm:items-center')
     expect(cacheRailContainer).toHaveClass('lg:items-center')
     expect(cacheRailContainer).toHaveClass('lg:justify-start')
@@ -401,7 +410,7 @@ describe('App', () => {
     await user.type(screen.getByPlaceholderText(/enter any number/i), '1067')
     await user.click(screen.getByRole('button', { name: /search/i }))
 
-    expect(await screen.findByText(/character not found/i)).toBeInTheDocument()
+    expect(await screen.findByText(new RegExp(strings.characterNotFound, 'i'))).toBeInTheDocument()
 
     global.fetch = originalFetch
   })

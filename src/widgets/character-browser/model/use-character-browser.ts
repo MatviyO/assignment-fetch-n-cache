@@ -17,6 +17,7 @@ import {
   searchCharacterSchema,
 } from '@/features/search-character/model/search-character-form'
 import { CharacterNotFoundError, fetchCharacter } from '@/shared/api/fetch-character'
+import { strings } from '@/shared/i18n/strings'
 import {
   type CharacterBrowserScreenState,
   getCharacterBrowserScreenState,
@@ -134,7 +135,7 @@ function useCharacterBrowser(): UseCharacterBrowserResult {
     },
     onError: (error) => {
       if (error instanceof CharacterNotFoundError) {
-        setError('Character not found')
+        setError(strings.characterNotFound)
         return
       }
 

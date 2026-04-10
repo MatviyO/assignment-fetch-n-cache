@@ -27,6 +27,8 @@ describe('SearchCharacterForm', () => {
     const button = screen.getByRole('button', { name: /search/i })
 
     expect(form).toHaveClass('border-b')
+    expect(form).toHaveClass('items-baseline')
+    expect(form.className).not.toContain('items-end')
     expect(form).toHaveClass('border-slate-950')
     expect(input).toHaveClass('text-[28px]')
     expect(input).toHaveClass('placeholder:text-[18px]')

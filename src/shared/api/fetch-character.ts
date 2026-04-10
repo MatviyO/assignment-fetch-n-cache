@@ -1,4 +1,6 @@
 import type { Character } from '@/entities/character/model/cache-store'
+import { env } from '@/shared/config/env'
+import { strings } from '@/shared/i18n/strings'
 
 interface RickAndMortyCharacterResponse {
   id: number
@@ -17,13 +19,13 @@ interface RickAndMortyCharacterResponse {
 
 export class CharacterNotFoundError extends Error {
   constructor() {
-    super('Character not found')
+    super(strings.characterNotFound)
     this.name = 'CharacterNotFoundError'
   }
 }
 
 export async function fetchCharacter(characterId: number): Promise<Character> {
-  const response = await fetch(`https://rickandmortyapi.com/api/character/${characterId}`)
+  const response = await fetch(`${env.rickAndMortyApiBaseUrl}/character/${characterId}`)
 
   if (response.status === 404) {
     throw new CharacterNotFoundError()
