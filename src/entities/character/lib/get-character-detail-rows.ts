@@ -1,4 +1,4 @@
-import type { Character } from '@/entities/character/model/cache-store'
+import type { Character } from '@/entities/character/model/types'
 import { strings } from '@/shared/i18n/strings'
 
 export interface CharacterDetailRow {
@@ -24,12 +24,12 @@ export function getCharacterDetailRows(character: Character): CharacterDetailRow
     {
       label: characterLabels.location,
       value: character.location,
-      valueClassName: 'font-normal text-slate-400',
+      valueClassName: 'font-bold text-label-gray',
     },
     {
       label: characterLabels.origin,
       value: character.origin,
-      valueClassName: 'font-normal text-slate-400',
+      valueClassName: 'font-bold text-label-gray',
     },
     {
       label: characterLabels.status,

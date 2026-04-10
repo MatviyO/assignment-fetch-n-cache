@@ -1,0 +1,16 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      run: npm run lint
+    knip:
+      run: npm run knip
+    type-check:
+      run: npm run type-check
+    test:
+      run: npm run test -- --passWithNoTests --bail
+
+commit-msg:
+  commands:
+    commitlint:
+      run: npx commitlint --edit {1}

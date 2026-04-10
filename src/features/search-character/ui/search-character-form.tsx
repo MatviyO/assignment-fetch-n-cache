@@ -18,7 +18,7 @@ function SearchCharacterForm({
 
   return (
     <form
-      className={`flex w-full max-w-[224px] items-baseline gap-4 border-b pb-1 ${formBorderClassName}`}
+      className={`flex w-full items-baseline gap-4 border-b pb-1 lg:max-w-[224px] ${formBorderClassName}`}
       aria-label="Character search form"
       onSubmit={onSubmit}
     >
@@ -37,7 +37,7 @@ function SearchCharacterForm({
       <button
         type="submit"
         disabled={isLoading}
-        className="shrink-0 border-0 bg-transparent p-0 text-[18px] leading-none italic text-blue-700 transition hover:text-blue-900 focus:outline-none focus-visible:text-blue-900 disabled:cursor-not-allowed disabled:text-slate-300"
+        className="shrink-0 border-0 bg-transparent p-0 text-[18px] leading-none italic text-brand-blue transition focus:outline-none disabled:cursor-not-allowed disabled:text-slate-300"
       >
         {strings.search}
       </button>

@@ -39,6 +39,22 @@
       }
     }
   },
+  "overrides": [
+    {
+      "includes": [".claude/**", ".commitlintrc.cjs", ".commitlintrc.js"],
+      "linter": {
+        "enabled": false
+      },
+      "formatter": {
+        "enabled": false
+      }
+    }
+  ],
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  },
   "javascript": {
     "formatter": {
       "arrowParentheses": "always",

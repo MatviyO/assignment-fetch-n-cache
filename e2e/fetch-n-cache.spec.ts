@@ -112,9 +112,7 @@ test('shows a generic error message on server failure', async ({ page }) => {
   await page.getByPlaceholder('Enter any number').fill('1')
   await page.getByRole('button', { name: 'Search' }).click()
 
-  await expect(
-    page.getByText('Something went wrong while fetching the character.'),
-  ).toBeVisible()
+  await expect(page.getByText('Something went wrong while fetching the character.')).toBeVisible()
 })
 
 test('removes an individual character from the cache rail', async ({ page }) => {
@@ -175,9 +173,10 @@ test('switches the visible character by selecting from the cache rail', async ({
   await expect(
     page.getByRole('button', { name: 'Show Galactic Federation President' }),
   ).toHaveAttribute('aria-pressed', 'true')
-  await expect(
-    page.getByRole('button', { name: 'Show Rick Sanchez' }),
-  ).toHaveAttribute('aria-pressed', 'false')
+  await expect(page.getByRole('button', { name: 'Show Rick Sanchez' })).toHaveAttribute(
+    'aria-pressed',
+    'false',
+  )
 })
 
 test('previews a cached character by typing its id without submitting', async ({ page }) => {

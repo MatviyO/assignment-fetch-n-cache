@@ -1,7 +1,7 @@
 import type { JSX } from 'react'
-
-import type { Character } from '@/entities/character/model/cache-store'
+import type { Character } from '@/entities/character/model/types'
 import { CharacterDetails } from '@/entities/character/ui/character-details'
+
 import type { CharacterBrowserScreenState } from '@/widgets/character-browser/model/character-browser-view'
 import { ErrorState } from '@/widgets/character-browser/ui/error-state'
 

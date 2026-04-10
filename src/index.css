@@ -1,6 +1,24 @@
 @import url("https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 @import "tailwindcss";
 
+@theme {
+  --color-brand-blue: #0005ff;
+  --color-label-gray: #b1b1b1;
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  --animate-fade-in-up: fade-in-up 0.4s ease-out forwards;
+}
+
 :root {
   color-scheme: light;
   font-synthesis: none;

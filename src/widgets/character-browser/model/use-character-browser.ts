@@ -1,21 +1,17 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import { type FormEvent, type FormEventHandler, useEffect } from 'react'
+import { type SubmitEvent, useEffect } from 'react'
 import { type SubmitHandler, type UseFormRegisterReturn, useForm, useWatch } from 'react-hook-form'
 
-import {
-  CHARACTER_CACHE_STORAGE_KEY,
-  type Character,
-  type CharacterCacheEntry,
-  characterCacheStore,
-  createPersistedCharacterCacheSnapshot,
-  isCacheEntryExpired,
-  useCharacterCacheStore,
-} from '@/entities/character/model/cache-store'
+import { characterCacheStore, useCharacterCacheStore } from '@/entities/character/model/cache-store'
+import { isCacheEntryExpired } from '@/entities/character/model/cache-utils'
+import type { Character } from '@/entities/character/model/types'
+import { useCharacterCachePersistence } from '@/entities/character/model/use-character-cache-persistence'
 import {
   type SearchCharacterFormValues,
   searchCharacterSchema,
 } from '@/features/search-character/model/search-character-form'
+import { useCachedCharacterPreview } from '@/features/search-character/model/use-cached-character-preview'
 import { CharacterNotFoundError, fetchCharacter } from '@/shared/api/fetch-character'
 import { strings } from '@/shared/i18n/strings'
 import {
@@ -34,66 +30,17 @@ interface UseCharacterBrowserResult {
   removeCharacter: (characterId: number) => void
   screenState: CharacterBrowserScreenState
   selectCharacter: (characterId: number) => void
-  submitCharacterSearch: FormEventHandler<HTMLFormElement>
+  submitCharacterSearch: (event: SubmitEvent<HTMLFormElement>) => void
   visibleCharacter: Character | null
   visibleCharacterId: number | null
 }
 
-interface PreviewCachedCharacterInput {
-  cacheById: Record<number, CharacterCacheEntry>
-  clearError: () => void
-  setVisibleCharacter: (characterId: number) => void
-  watchedCharacterId: string
-}
-
-function useCharacterCachePersistence(): void {
-  useEffect(() => {
-    characterCacheStore.getState().hydratePersistedCache()
-    characterCacheStore.getState().pruneExpired()
-
-    const unsubscribe = characterCacheStore.subscribe((state) => {
-      window.localStorage.setItem(
-        CHARACTER_CACHE_STORAGE_KEY,
-        JSON.stringify(createPersistedCharacterCacheSnapshot(state)),
-      )
-    })
-
-    return unsubscribe
-  }, [])
-}
-
-function useCachedCharacterPreview({
-  cacheById,
-  clearError,
-  setVisibleCharacter,
-  watchedCharacterId,
-}: PreviewCachedCharacterInput): void {
-  useEffect(() => {
-    const trimmedCharacterId = watchedCharacterId.trim()
-
-    if (!trimmedCharacterId) {
-      return
-    }
-
-    const normalizedId = Number(trimmedCharacterId)
-
-    if (!Number.isInteger(normalizedId) || normalizedId < 1) {
-      return
-    }
-
-    const cachedEntry = cacheById[normalizedId]
-
-    if (cachedEntry && !isCacheEntryExpired(cachedEntry)) {
-      clearError()
-      setVisibleCharacter(normalizedId)
-    }
-  }, [cacheById, clearError, setVisibleCharacter, watchedCharacterId])
-}
-
 function useCharacterBrowser(): UseCharacterBrowserResult {
-  const { control, handleSubmit, register } = useForm<SearchCharacterFormValues>({
+  useCharacterCachePersistence()
+
+  const { control, handleSubmit, register, setValue } = useForm<SearchCharacterFormValues>({
     defaultValues: {
-      characterId: '',
+      characterId: String(characterCacheStore.getState().visibleCharacterId ?? ''),
     },
     resolver: zodResolver(searchCharacterSchema),
   })
@@ -113,13 +60,14 @@ function useCharacterBrowser(): UseCharacterBrowserResult {
       name: 'characterId',
     }) ?? ''
 
-  useCharacterCachePersistence()
   useCachedCharacterPreview({
-    cacheById,
-    clearError,
-    setVisibleCharacter,
     watchedCharacterId,
   })
+
+  // Sync form with store when selection changes (e.g. via cache rail or hydration)
+  useEffect(() => {
+    setValue('characterId', String(visibleCharacterId ?? ''))
+  }, [visibleCharacterId, setValue])
 
   const visibleCharacter = selectVisibleCharacter(cacheById, visibleCharacterId)
   const cacheRailCharacters = selectCacheRailCharacterIds(cacheOrder).flatMap((characterId) => {
@@ -139,7 +87,7 @@ function useCharacterBrowser(): UseCharacterBrowserResult {
         return
       }
 
-      setError('Something went wrong while fetching the character.')
+      setError(strings.fetchError)
     },
   })
 
@@ -168,7 +116,7 @@ function useCharacterBrowser(): UseCharacterBrowserResult {
     visibleCharacter,
   })
 
-  function submitCharacterSearch(event: FormEvent<HTMLFormElement>): void {
+  function submitCharacterSearch(event: SubmitEvent<HTMLFormElement>): void {
     void handleCharacterSearchSubmit(event)
   }
 

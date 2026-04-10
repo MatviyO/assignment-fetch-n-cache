@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "typecheck": "tsc -b",
+    "type-check": "tsc --noEmit",
     "build": "npm run typecheck && vite build",
     "knip": "knip --no-progress",
     "lint": "biome check . --error-on-warnings",
@@ -15,7 +16,8 @@
     "test:watch": "jest --watch",
     "test:e2e": "playwright test",
     "check": "npm run lint && npm run knip && npm run build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepare": "lefthook install"
   },
   "engines": {
     "node": ">=20.19.0"
@@ -48,6 +50,7 @@
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
     "knip": "^6.3.1",
+    "lefthook": "^2.1.5",
     "tailwindcss": "^4.2.2",
     "ts-jest": "^29.4.9",
     "typescript": "~6.0.2",

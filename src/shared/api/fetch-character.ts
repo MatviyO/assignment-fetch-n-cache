@@ -1,4 +1,4 @@
-import type { Character } from '@/entities/character/model/cache-store'
+import type { Character } from '@/entities/character/model/types'
 import { env } from '@/shared/config/env'
 import { strings } from '@/shared/i18n/strings'
 

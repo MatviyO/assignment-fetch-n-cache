@@ -1,6 +1,6 @@
 import type { JSX } from 'react'
 
-import type { Character } from '@/entities/character/model/cache-store'
+import type { Character } from '@/entities/character/model/types'
 
 const placeholderImage = '/character-placeholder.png'
 
@@ -11,7 +11,7 @@ interface CharacterPosterProps {
 
 function CharacterPoster({ character, isLoading }: CharacterPosterProps): JSX.Element {
   const containerClassName =
-    'relative h-[224px] w-[224px] overflow-hidden rounded-[6px] bg-[#F5F6FA] shadow-[0_14px_24px_rgba(148,163,184,0.18)]'
+    'relative aspect-square w-full overflow-hidden rounded-[6px] bg-[#F5F6FA] shadow-[0_14px_24px_rgba(148,163,184,0.18)] lg:h-[224px] lg:w-[224px]'
 
   if (isLoading) {
     return (

@@ -1,8 +1,5 @@
-import {
-  CACHE_TTL_MS,
-  createCharacterCacheStore,
-  MAX_CACHED_CHARACTERS,
-} from '@/entities/character/model/cache-store'
+import { createCharacterCacheStore } from './cache-store'
+import { CACHE_TTL_MS, MAX_CACHED_CHARACTERS } from './config'
 
 const galacticPresident = {
   id: 130,

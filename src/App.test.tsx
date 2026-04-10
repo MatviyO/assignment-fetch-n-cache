@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 
 import App from '@/App'
 import { characterCacheStore } from '@/entities/character/model/cache-store'
+import { strings } from './shared/i18n/strings'
 
 const galacticPresidentResponse = {
   id: 130,
@@ -101,8 +102,9 @@ describe('App', () => {
     const expectCardToBeSquare = () => {
       const posterCard = screen.getByLabelText(/character card/i)
 
-      expect(posterCard).toHaveClass('w-[224px]')
-      expect(posterCard).toHaveClass('h-[224px]')
+      expect(posterCard).toHaveClass('w-full')
+      expect(posterCard).toHaveClass('lg:w-[224px]')
+      expect(posterCard).toHaveClass('lg:h-[224px]')
     }
 
     expectCardToBeSquare()
@@ -136,26 +138,26 @@ describe('App', () => {
     render(<App />)
 
     const cacheRail = screen.getByLabelText(/cached characters/i)
-    const cacheRailContainer = cacheRail.parentElement
+    const historyContainer = cacheRail.closest('.flex-col')
+    const clearAllButtons = screen.getAllByRole('button', { name: /clear all/i })
+    const clearAllButton = clearAllButtons[1] as HTMLElement
     const searchForm = screen.getByLabelText(/character search form/i)
-    const clearAllButton = screen.getByRole('button', { name: /clear all/i })
-    const headerRow = searchForm.parentElement
+    const headerRow = searchForm.closest('.flex-col')
     const contentGrid = headerRow?.nextElementSibling
 
     expect(screen.getAllByRole('button', { name: /show /i })).toHaveLength(3)
     expect(screen.queryByRole('button', { name: /show rick sanchez/i })).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: /show beth smith/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /show beth smith/i })).toHaveClass('size-[60px]')
-    expect(headerRow).toContainElement(clearAllButton)
-    expect(headerRow).toHaveClass('lg:items-end')
-    expect(headerRow).toHaveClass('lg:justify-between')
-    expect(headerRow).toHaveClass('mb-[30px]')
+    expect(screen.getByRole('button', { name: /show beth smith/i })).toHaveClass('size-[66px]')
+    expect(historyContainer).toContainElement(clearAllButton)
+    expect(headerRow).toHaveClass('sm:flex-row')
+    expect(headerRow).toHaveClass('sm:items-end')
+    expect(headerRow).toHaveClass('sm:justify-between')
+    expect(headerRow).toHaveClass('lg:mb-[30px]')
     expect(contentGrid).toHaveClass('lg:items-start')
-    expect(cacheRailContainer).toHaveClass('sm:items-center')
-    expect(cacheRailContainer).toHaveClass('lg:items-center')
-    expect(cacheRailContainer).toHaveClass('lg:justify-start')
-    expect(cacheRailContainer?.className).not.toContain('lg:justify-center')
-    expect(cacheRailContainer?.className).not.toContain('min-h')
+    expect(historyContainer).toHaveClass('lg:justify-start')
+    expect(historyContainer?.className).not.toContain('lg:justify-center')
+    expect(historyContainer?.className).not.toContain('min-h')
     expect(cacheRail.className).not.toContain('overflow-x-auto')
     expect(cacheRail.className).not.toContain('overflow-y-auto')
     expect(cacheRail.className).not.toContain('max-h')
@@ -232,7 +234,7 @@ describe('App', () => {
       name: /show galactic federation president/i,
     })
 
-    expect(screen.getByRole('button', { name: /clear all/i })).toBeInTheDocument()
+    expect(screen.getAllByRole('button', { name: /clear all/i })[0]).toBeInTheDocument()
     expect(cachedCharacterButton).toHaveAttribute('aria-pressed', 'true')
 
     global.fetch = originalFetch

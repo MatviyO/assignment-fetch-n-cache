@@ -42,12 +42,16 @@ describe('CharacterBrowserContent', () => {
     expect(detailList).not.toBeNull()
     expect(detailList).toHaveClass('text-[16px]')
 
-    for (const label of ['Species', 'Type', 'Location', 'Origin', 'Status']) {
+    const { characterLabels } = strings
+
+    for (const label of Object.values(characterLabels)) {
       expect(screen.getByText(label)).toHaveClass('font-normal')
     }
 
-    for (const value of ['Human', 'Unknown', 'Citadel of Ricks', 'Earth (C-137)', 'Alive']) {
-      expect(screen.getByText(value)).toHaveClass('font-normal')
-    }
+    expect(screen.getByText('Human')).toHaveClass('font-bold')
+    expect(screen.getByText('Unknown')).toHaveClass('font-bold')
+    expect(screen.getByText('Citadel of Ricks')).toHaveClass('font-bold')
+    expect(screen.getByText('Earth (C-137)')).toHaveClass('font-bold')
+    expect(screen.getByText('Alive')).toHaveClass('font-bold')
   })
 })

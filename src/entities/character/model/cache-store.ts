@@ -1,70 +1,12 @@
 import { useStore } from 'zustand'
 import { createStore } from 'zustand/vanilla'
-
-export const CACHE_TTL_MS = 24 * 60 * 60 * 1000
-export const MAX_CACHED_CHARACTERS = 3
-export const CHARACTER_CACHE_STORAGE_KEY = 'fetch-n-cache-store-v1'
-
-export interface Character {
-  id: number
-  name: string
-  image: string
-  species: string
-  type: string
-  location: string
-  origin: string
-  status: 'Alive' | 'Dead' | 'unknown'
-}
-
-export interface CharacterCacheEntry {
-  character: Character
-  cachedAt: number
-}
-
-interface CharacterCacheState {
-  cacheById: Record<number, CharacterCacheEntry>
-  cacheOrder: number[]
-  visibleCharacterId: number | null
-  errorMessage: string | null
-  upsertCharacter: (character: Character) => void
-  removeCharacter: (characterId: number) => void
-  clearCache: () => void
-  pruneExpired: () => void
-  setVisibleCharacter: (characterId: number | null) => void
-  setError: (message: string | null) => void
-  clearError: () => void
-  hydratePersistedCache: () => void
-}
-
-type PersistedCharacterCacheState = Pick<
+import { isCacheEntryExpired, trimCacheToLimit } from './cache-utils'
+import { CHARACTER_CACHE_STORAGE_KEY } from './config'
+import type {
+  CharacterCacheEntry,
   CharacterCacheState,
-  'cacheById' | 'cacheOrder' | 'visibleCharacterId'
->
-
-export const isCacheEntryExpired = (entry: CharacterCacheEntry, now = Date.now()) =>
-  now - entry.cachedAt > CACHE_TTL_MS
-
-function trimCacheToLimit(
-  cacheById: Record<number, CharacterCacheEntry>,
-  cacheOrder: number[],
-): Pick<CharacterCacheState, 'cacheById' | 'cacheOrder'> {
-  if (cacheOrder.length <= MAX_CACHED_CHARACTERS) {
-    return {
-      cacheById,
-      cacheOrder,
-    }
-  }
-
-  const nextCacheOrder = cacheOrder.slice(-MAX_CACHED_CHARACTERS)
-  const nextCacheById = Object.fromEntries(
-    nextCacheOrder.map((characterId) => [characterId, cacheById[characterId]]),
-  ) as Record<number, CharacterCacheEntry>
-
-  return {
-    cacheById: nextCacheById,
-    cacheOrder: nextCacheOrder,
-  }
-}
+  PersistedCharacterCacheState,
+} from './types'
 
 export const createCharacterCacheStore = () =>
   createStore<CharacterCacheState>()((set) => ({
@@ -196,13 +138,9 @@ export const createCharacterCacheStore = () =>
 
 export const characterCacheStore = createCharacterCacheStore()
 
-export const createPersistedCharacterCacheSnapshot = (
-  state: Pick<CharacterCacheState, 'cacheById' | 'cacheOrder' | 'visibleCharacterId'>,
-): PersistedCharacterCacheState => ({
-  cacheById: state.cacheById,
-  cacheOrder: state.cacheOrder,
-  visibleCharacterId: state.visibleCharacterId,
-})
-
 export const useCharacterCacheStore = <T>(selector: (state: CharacterCacheState) => T) =>
   useStore(characterCacheStore, selector)
+
+export * from './cache-utils'
+export * from './config'
+export * from './types'

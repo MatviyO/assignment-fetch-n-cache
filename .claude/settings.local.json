@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npx commitlint:*)",
+      "Bash(npx lefthook:*)",
+      "Bash(npm run:*)",
+      "Bash(npm test:*)",
+      "Bash(bash /tmp/check_imports.sh)",
+      "Bash(bash /tmp/check_test_coverage.sh)"
+    ]
+  }
+}
